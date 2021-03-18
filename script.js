@@ -44,6 +44,61 @@ function pauseSong() {
   audio.pause();
 }
 
+// Previous song
+function prevSong() {
+  songIndex--;
+
+  if (songIndex < 0) {
+    songIndex = songs.length - 1;
+  }
+
+  loadSong(songs[songIndex]);
+
+  playSong();
+}
+
+// Next song
+function nextSong() {
+  songIndex++;
+
+  if (songIndex > songs.length - 1) {
+    songIndex = 0;
+  }
+
+  loadSong(songs[songIndex]);
+
+  playSong();
+}
+
+// Update progress bar
+function updateProgress(e) {
+  const {
+    duration,
+    currentTime
+  } = e.srcElement;
+  // console(duration, currentTime);
+  const progressPercent = (currentTime / duration) * 100;
+  // console.log(progressPercent);
+
+  // Set it to the width of the progress of the element
+  progress.style.width = `${progressPercent}%`;
+}
+
+// Set progress bar
+function setProgress(e) {
+  const width = this.clientWidth;
+  // console.log(width); // total width 216
+
+  // Get where we click
+  const clickX = e.offsetX;
+  // console.log(clickX);
+
+  // Get the complete duration of the song
+  const duration = audio.duration;
+
+  // Set the current time of the audio to the right position
+  audio.currentTime = (clickX / width) * duration;
+}
 
 // Event Listener
 playBtn.addEventListener('click', () => {
@@ -55,3 +110,16 @@ playBtn.addEventListener('click', () => {
     playSong();
   }
 });
+
+// Change song
+prevBtn.addEventListener('click', prevSong);
+nextBtn.addEventListener('click', nextSong);
+
+// Time/song update
+audio.addEventListener('timeupdate', updateProgress);
+
+// Click on progress bar
+progressContainer.addEventListener('click', setProgress);
+
+// Song ends
+audio.addEventListener('ended', nextSong);
