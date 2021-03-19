@@ -11,10 +11,10 @@ const musicContainer = document.getElementById('music-container'),
 // Song titles
 // they should match with the title .mp3 in music folder
 // the images the same
-const songs = ['hey', 'summer', 'ukulele'];
+const songs = ['energy', 'summer', 'creativeminds'];
 
 // Keep track of song
-let songIndex = 1;
+let songIndex = 2;
 
 // Inialially load song details into DOM
 loadSong(songs[songIndex]);
